@@ -2,9 +2,10 @@ const userInput = document.querySelector(".userInput");
 const wordBtn = document.querySelector(".wordBtn");
 const checkbox = document.querySelector(".checkbox");
 const message = document.querySelector(".message");
+const messagee = document.querySelector(".messagee");
 const messages = document.querySelector(".messages");
 const longestBtn = document.querySelector(".longestBtn");
-
+const trackBtn = document.querySelector(".trackBtn");
 
 
 
@@ -70,7 +71,7 @@ hideWords = () => {
         // console.log(i, sent);
     }
 
-    message.innerHTML = sent;
+    messagee.innerHTML = sent;
 }
 
 
@@ -98,6 +99,16 @@ longestWord = () => {
 }
 
 
+keepTrack = () =>{
+    const userSentance = userInput.value;
+   
+localStorage.setItem("sentance", userSentance);
+console.log(userSentance);
+message.innerHTML = localStorage.getItem("sentance");
+
+}
+
+
 wordBtn.addEventListener('click', function () {
 
     message.innerHTML = getSentance();
@@ -111,5 +122,5 @@ checkbox.addEventListener('click', function () {
     longestWord();
 })
 
-    // Hi Sino, are you good today?
+trackBtn.addEventListener('click', keepTrack);
 
