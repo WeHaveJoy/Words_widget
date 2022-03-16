@@ -8,7 +8,7 @@ const longestBtn = document.querySelector(".longestBtn");
 
 
 
-function getSentance() {
+getSentance = () => {
     const userSentance = userInput.value;
     if (userSentance) {
         return ` ${userSentance}`;
@@ -17,7 +17,7 @@ function getSentance() {
 }
 
 
-function highlightLongWords(userInput) {
+highlightLongWords = (userInput) => {
 
     const words = userInput.split(" ");
     let sent = '';
@@ -37,8 +37,7 @@ function highlightLongWords(userInput) {
 
 }
 
-
-function countWords(userInput) {
+countWords = (userInput) => {
     console.log(userInput);
     const words = userInput.split(" ");
     var count = 0;
@@ -55,29 +54,27 @@ function countWords(userInput) {
 }
 
 
-function hideWords() {
+hideWords = () => {
     const hidenWords = userInput.value;
     const words = hidenWords.split(" ");
     let sent = '';
     for (let i = 0; i < words.length; i++) {
         if ((checkbox.checked == true) && (words[i].length >= 5)) {
-            console.log(words[i].length > 4);
-
+            // console.log(words[i].length > 4);
             sent += `<mark  class="and">${words[i]}</mark> `
 
         } else {
             sent += " ";
 
         }
-        console.log(i, sent);
-
+        // console.log(i, sent);
     }
 
     message.innerHTML = sent;
 }
 
 
-function longestWord() {
+longestWord = () => {
     const hidenWords = userInput.value;
     const words = hidenWords.split(" ");
     let sent = '';
@@ -86,16 +83,18 @@ function longestWord() {
         if ((checkbox.checked == true) && (longest.length < words[i].length)) {
             console.log(longest.length < words[i].length);
             longest = words[i];
-            console.log(longest);
-            sent += `<mark  class="and">${longest}</mark> `
 
+            console.log(longest);
+            sent += `<mark  class="and"> ${longest} </mark> `
+            console.log(sent);
         } else {
             sent += " ";
 
         }
-        messages.innerHTML = `The longest word in the sentance is ${longest}`;
-        message.innerHTML = sent;
+        messages.innerHTML = sent;
+        messages.innerHTML = `The longest word in the sentance is <mark  class="and"> ${longest} </mark>`;
     }
+
 }
 
 
