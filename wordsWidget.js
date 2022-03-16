@@ -1,9 +1,9 @@
 const userInput = document.querySelector(".userInput");
 const wordBtn = document.querySelector(".wordBtn");
-const hideHighlightBtn = document.querySelector(".hideHighlightBtn");
+const checkbox = document.querySelector(".checkbox");
 const message = document.querySelector(".message");
 const messages = document.querySelector(".messages");
-// const countBtn = document.querySelector(".countBtn");
+const longestBtn = document.querySelector(".longestBtn");
 
 
 
@@ -54,13 +54,64 @@ function countWords(userInput) {
 
 }
 
-wordBtn.addEventListener('click', function () {
-    
-    message.innerText = getSentance();
-    highlightLongWords(userInput.value);
-     messages.innerHTML = countWords(userInput.value);
-      countWords(userInput.value);
-})
 
-// Hi Sino, are you good today?
+function hideWords() {
+    const hidenWords = userInput.value;
+    const words = hidenWords.split(" ");
+    let sent = '';
+    for (let i = 0; i < words.length; i++) {
+        if ((checkbox.checked == true) && (words[i].length >= 5)) {
+            console.log(words[i].length > 4);
+
+            sent += `<mark  class="and">${words[i]}</mark> `
+
+        } else {
+            sent += " ";
+
+        }
+        console.log(i, sent);
+
+    }
+
+    message.innerHTML = sent;
+}
+
+
+function longestWord() {
+    const hidenWords = userInput.value;
+    const words = hidenWords.split(" ");
+    let sent = '';
+    let longest = 0;
+    for (let i = 0; i < words.length; i++) {
+        if ((checkbox.checked == true) && (words[i].length > longest)) {
+            console.log(words[i].length > longest);
+                longest = words[i].length;
+            
+            sent += `<mark  class="and">${words[i]}</mark> `
+
+        } else {
+            sent += " ";
+
+        }
+       messages.innerHTML =  `The longest word in the sentance is ${longest}`;
+       message.innerHTML = sent;
+    }
+
+}
+
+
+    wordBtn.addEventListener('click', function () {
+
+        message.innerHTML = getSentance();
+        highlightLongWords(userInput.value);
+        messages.innerHTML = countWords(userInput.value);
+        countWords(userInput.value);
+    })
+
+    checkbox.addEventListener('click', function () {
+        hideWords();
+        longestWord();
+    })
+
+    // Hi Sino, are you good today?
 
