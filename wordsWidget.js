@@ -2,7 +2,8 @@ const userInput = document.querySelector(".userInput");
 const wordBtn = document.querySelector(".wordBtn");
 const hideHighlightBtn = document.querySelector(".hideHighlightBtn");
 const message = document.querySelector(".message");
-const countBtn = document.querySelector(".countBtn");
+const messages = document.querySelector(".messages");
+// const countBtn = document.querySelector(".countBtn");
 
 
 
@@ -18,10 +19,8 @@ function getSentance() {
 
 function highlightLongWords(userInput) {
 
-    // let longestWord = "abcde";
-
     const words = userInput.split(" ");
-    let sent = ''
+    let sent = '';
 
     for (let i = 0; i < words.length; i++) {
 
@@ -50,17 +49,18 @@ function countWords(userInput) {
         }
         count++;
     }
-    return count;
+    return `There are ${count} words in the sentence`;
+
 
 }
 
 wordBtn.addEventListener('click', function () {
+    
     message.innerText = getSentance();
     highlightLongWords(userInput.value);
-    countWords(userInput.value);
+     messages.innerHTML = countWords(userInput.value);
+      countWords(userInput.value);
 })
 
-countBtn.addEventListener('click', function () {
+// Hi Sino, are you good today?
 
-    message.innerHTML = countWords(userInput.value);
-})
