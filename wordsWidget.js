@@ -12,6 +12,7 @@ const trackBtn = document.querySelector(".trackBtn");
 getSentance = () => {
     const userSentance = userInput.value;
     if (userSentance) {
+        localStorage.setItem("sentance", userSentance)
         return ` ${userSentance}`;
     }
 
@@ -68,7 +69,6 @@ hideWords = () => {
             sent += " ";
 
         }
-        // console.log(i, sent);
     }
 
     messagee.innerHTML = sent;
@@ -95,17 +95,22 @@ longestWord = () => {
         messages.innerHTML = sent;
         messages.innerHTML = `The longest word in the sentance is <mark  class="and"> ${longest} </mark>`;
     }
-
 }
 
 
-keepTrack = () =>{
+keepTrack = () => {
     const userSentance = userInput.value;
-   
-localStorage.setItem("sentance", userSentance);
-console.log(userSentance);
-message.innerHTML = localStorage.getItem("sentance");
 
+    const arrSent = [];
+    arrSent.push(userSentance);
+    localStorage.setItem("sentance", arrSent);
+    message.innerHTML = localStorage.getItem("sentance")
+    for (let i = 0; i < arrSent.length; i++) {
+        const element = arrSent[i];
+        console.log(element);
+
+        message.innerHTML = element;
+    }
 }
 
 
