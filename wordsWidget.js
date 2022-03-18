@@ -4,35 +4,21 @@ const checkbox = document.querySelector(".checkbox");
 const message = document.querySelector(".message");
 const messagee = document.querySelector(".messagee");
 const messages = document.querySelector(".messages");
+const avrg = document.querySelector(".avrg");
 const longestBtn = document.querySelector(".longestBtn");
 const trackBtn = document.querySelector(".trackBtn");
 const list = document.querySelector(".list");
-const sentencely = document.querySelector(".sentencely");
+const avBtn = document.querySelector(".avBtn");
 
-console.log(sentencely);
+// let arrSent = [];
 
 getSentance = () => {
     let arrSent = (localStorage.getItem("sentence") === null)
         ? []
         : JSON.parse(localStorage.getItem("sentence"))
     const userSentence = userInput.value;
-    // console.log(arrSent);
     arrSent.push(userSentence);
     localStorage.setItem("sentence", JSON.stringify(arrSent));
-
-    // if (localStorage.getItem("sentence") === null) {
-
-    // }/
-    // else {
-    //     console.log(arrSent);
-    //     arrSent = JSON.parse(localStorage.getItem("sentence"))
-    // }
-    // if (userSentence) {
-    //     arrSent.push(userSentence)
-    //     localStorage.setItem("sentence", arrSent)
-    //     return ` ${userSentence}`;
-    // }
-
 }
 
 
@@ -58,11 +44,10 @@ highlightLongWords = (userInput) => {
 
 
 countWords = (userInput) => {
-    // console.log(userInput);
+
     const words = userInput.split(" ");
     var count = 0;
     for (var i = 0; i < words.length; i++) {
-        // console.log(words[i]);
         if (words[i] === " ") {
             count = +1;
         }
@@ -117,7 +102,7 @@ longestWord = (userInput) => {
 keepTrack = () => {
     list.innerHTML = ''
     const userSentence = userInput.value;
-    let arrSent = [];
+    // let arrSent = [];
 
     if (localStorage.getItem("sentence") === null) {
 
@@ -146,7 +131,21 @@ clickSentence = (event) => {
     countWords(event.target.innerHTML);
     hideWords(event.target.innerHTML);
     longestWord(event.target.innerHTML);
+    averageWordLength(event.target.innerHTML);
 }
+
+
+averageWordLength = userInput => {
+    if (!userInput === (" ")) {
+        return userInput.length;
+    };
+    const { length: strLen } = userInput;
+    const { length: numWords } = userInput.split(" ");
+    const average = (strLen - numWords + 1) / numWords;
+    console.log(average);
+    avrg.innerHTML = `The average of the sentences is ${average} `;
+    //return average.toFixed(2);
+};
 
 
 wordBtn.addEventListener('click', function () {
@@ -168,3 +167,8 @@ trackBtn.addEventListener('click', keepTrack);
 
 
 list.addEventListener('click', clickSentence);
+
+
+avBtn.addEventListener('click', function () {
+    averageWordLength(userInput.value)
+});
