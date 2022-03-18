@@ -10,7 +10,7 @@ const trackBtn = document.querySelector(".trackBtn");
 const list = document.querySelector(".list");
 const avBtn = document.querySelector(".avBtn");
 
-// let arrSent = [];
+ let arrSent = [];
 
 getSentance = () => {
     let arrSent = (localStorage.getItem("sentence") === null)
@@ -135,15 +135,30 @@ clickSentence = (event) => {
 }
 
 
-averageWordLength = userInput => {
-    if (!userInput === (" ")) {
-        return userInput.length;
-    };
-    const { length: strLen } = userInput;
-    const { length: numWords } = userInput.split(" ");
-    const average = (strLen - numWords + 1) / numWords;
-    console.log(average);
-    avrg.innerHTML = `The average of the sentences is ${average} `;
+averageWordLength = () => {
+console.log(arrSent);
+    
+  let average = 0;      
+for (let i = 0; i <= arrSent.length; i++) {
+    const element = arrSent[i];
+    if (element) {
+        average = arrSent.length/i; 
+
+    }
+   
+}
+console.log(average);
+
+avrg.innerHTML = `The average of the sentences is ${average}`;
+    // if (!userInput === (" ")) {
+    //     return userInput.length;
+    // };
+    // const { length: strLen } = userInput;
+    // const { length: numWords } = userInput.split(" ");
+    // const average = (strLen - numWords + 1) / numWords;
+
+    // console.log(average);
+    // avrg.innerHTML = `The average of the sentences is ${average} `;
     //return average.toFixed(2);
 };
 
@@ -170,5 +185,5 @@ list.addEventListener('click', clickSentence);
 
 
 avBtn.addEventListener('click', function () {
-    averageWordLength(userInput.value)
+    averageWordLength();
 });
