@@ -7,11 +7,13 @@ const messages = document.querySelector(".messages");
 const longestBtn = document.querySelector(".longestBtn");
 const trackBtn = document.querySelector(".trackBtn");
 const list = document.querySelector(".list");
+const sentencely = document.querySelector(".sentencely");
 
+console.log(sentencely);
 
 getSentance = () => {
     let arrSent = (localStorage.getItem("sentence") === null)
-        ? [] 
+        ? []
         : JSON.parse(localStorage.getItem("sentence"))
     const userSentence = userInput.value;
     // console.log(arrSent);
@@ -19,7 +21,7 @@ getSentance = () => {
     localStorage.setItem("sentence", JSON.stringify(arrSent));
 
     // if (localStorage.getItem("sentence") === null) {
-        
+
     // }/
     // else {
     //     console.log(arrSent);
@@ -54,6 +56,7 @@ highlightLongWords = (userInput) => {
 
 }
 
+
 countWords = (userInput) => {
     // console.log(userInput);
     const words = userInput.split(" ");
@@ -71,9 +74,9 @@ countWords = (userInput) => {
 }
 
 
-hideWords = () => {
-    const hidenWords = userInput.value;
-    const words = hidenWords.split(" ");
+hideWords = (userInput) => {
+    // const hidenWords = userInput.value;
+    const words = userInput.split(" ");
     let sent = '';
     for (let i = 0; i < words.length; i++) {
         if ((checkbox.checked == true) && (words[i].length >= 5)) {
@@ -90,19 +93,17 @@ hideWords = () => {
 }
 
 
-longestWord = () => {
-    const hidenWords = userInput.value;
-    const words = hidenWords.split(" ");
+longestWord = (userInput) => {
+    // const hidenWords = userInput.value;
+    const words = userInput.split(" ");
     let sent = '';
     let longest = [0];
     for (let i = 0; i < words.length; i++) {
         if ((checkbox.checked == true) && (longest.length < words[i].length)) {
-            // console.log(longest.length < words[i].length);
-            longest = words[i];
 
-            // console.log(longest);
+            longest = words[i];
             sent += `<mark  class="and"> ${longest} </mark> `
-            // console.log(sent);
+
         } else {
             sent += " ";
 
@@ -124,18 +125,27 @@ keepTrack = () => {
         localStorage.setItem("sentence", JSON.stringify(arrSent));
     }
     else {
-        arrSent =  JSON.parse(localStorage.getItem("sentence"))
+        arrSent = JSON.parse(localStorage.getItem("sentence"))
     }
-        console.log(arrSent);
+    console.log(arrSent);
     for (let i = 0; i < arrSent.length; i++) {
         const element = arrSent[i];
-        // console.log(element);
 
         var entry = document.createElement('li');
         entry.appendChild(document.createTextNode(element));
+
         list.appendChild(entry);
-       
+
     }
+}
+
+
+clickSentence = (event) => {
+    console.log(event.target.innerHTML);
+    highlightLongWords(event.target.innerHTML);
+    countWords(event.target.innerHTML);
+    hideWords(event.target.innerHTML);
+    longestWord(event.target.innerHTML);
 }
 
 
@@ -147,10 +157,14 @@ wordBtn.addEventListener('click', function () {
     countWords(userInput.value);
 })
 
+
 checkbox.addEventListener('click', function () {
-    hideWords();
-    longestWord();
+    hideWords(userInput.value);
+    longestWord(userInput.value);
 })
+
 
 trackBtn.addEventListener('click', keepTrack);
 
+
+list.addEventListener('click', clickSentence);
