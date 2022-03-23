@@ -15,4 +15,12 @@ text-align: center;
    background-color: aqua;
  }
 
- 
+ .warning {
+  color: orange;
+  font-weight: bold;
+}
+
+.green{
+    color: green;
+    font-weight: bold;
+}

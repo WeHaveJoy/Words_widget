@@ -5,6 +5,7 @@ const message = document.querySelector(".message");
 const messagee = document.querySelector(".messagee");
 const messages = document.querySelector(".messages");
 const avrg = document.querySelector(".avrg");
+const av = document.querySelector(".av");
 const longestBtn = document.querySelector(".longestBtn");
 const trackBtn = document.querySelector(".trackBtn");
 const list = document.querySelector(".list");
@@ -20,12 +21,12 @@ getSentance = () => {
 
     if (arrSent.length === 5) {
         arrSent.shift();
-        arrSent.push(userSentence);
+        // arrSent.push(userSentence);
     }
-
+    arrSent.push(userSentence);
     localStorage.setItem("sentence", JSON.stringify(arrSent));
 
-   
+
 }
 
 
@@ -109,7 +110,7 @@ longestWord = (userInput) => {
 keepTrack = () => {
     list.innerHTML = ''
     const userSentence = userInput.value;
-   
+
     if (localStorage.getItem("sentence") === null) {
 
         arrSent.push(userSentence);
@@ -148,12 +149,12 @@ clickSentence = (event) => {
     countWords(event.target.innerHTML);
     hideWords(event.target.innerHTML);
     longestWord(event.target.innerHTML);
-    averageWordLength(event.target.innerHTML);
+    // averageWordLength(event.target.innerHTML);
 }
 
 
-averageWordLength = () => {
-    //console.log(arrSent);
+const averageWordLength = () => {
+    console.log(arrSent);
 
     let average = 0;
     for (let i = 0; i <= arrSent.length; i++) {
@@ -162,22 +163,40 @@ averageWordLength = () => {
             average = arrSent.length / i;
 
         }
-
+        console.log(element);
     }
-    //console.log(average);
 
     avrg.innerHTML = `The average of the sentences is ${average}`;
-    // if (!userInput === (" ")) {
-    //     return userInput.length;
-    // };
-    // const { length: strLen } = userInput;
-    // const { length: numWords } = userInput.split(" ");
-    // const average = (strLen - numWords + 1) / numWords;
-
-    // console.log(average);
-    // avrg.innerHTML = `The average of the sentences is ${average} `;
-    //return average.toFixed(2);
 };
+
+
+const avLastSent = (userInput) => {
+
+
+    if (!userInput === (" ")) {
+        return userInput.length;
+    };
+    const { length: strLen } = userInput;
+    const { length: numWords } = userInput.split(" ");
+    const arvge = (strLen - numWords + 1) / numWords;
+
+    console.log(arvge);
+    av.innerHTML = `The average of the last sentence is ${arvge} `;
+}
+
+const avDifference = () => {
+
+    if (avLastSent > averageWordLength) {
+        console.log(avLastSent > averageWordLength);
+        return "green";
+
+    }
+    else if (avLastSent < averageWordLength) {
+
+        return "warning"
+    }
+    // console.log(avLastSent < averageWordLength);
+}
 
 
 wordBtn.addEventListener('click', function () {
@@ -203,4 +222,6 @@ list.addEventListener('click', clickSentence);
 
 avBtn.addEventListener('click', function () {
     averageWordLength();
+    avLastSent(userInput.value);
+  av.innerHTML = avDifference();
 });
