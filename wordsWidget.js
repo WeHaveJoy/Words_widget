@@ -2,7 +2,7 @@ const userInput = document.querySelector(".userInput");
 const analyzeBtn = document.querySelector(".analyzeBtn");
 const checkbox = document.querySelector(".checkbox");
 const message = document.querySelector(".message");
-const wordCount = document.querySelector(".wordCount");
+// const wordCount = document.querySelector(".wordCount");
 const messages = document.querySelector(".messages");
 const messaging = document.querySelector(".messaging");
 const wordsElem = document.querySelector(".words");
@@ -28,17 +28,18 @@ getSentance = () => {
     arrSent.push(userSentence);
     localStorage.setItem("sentence", JSON.stringify(arrSent));
 
-if (userInput.value.trim().length === 0) {
-    wordsElem.innerHTML = "";
-    wordCount.innerHTML = 0;
-    return;
-}
+    if (userInput.value.trim().length === 0) {
+        wordsElem.innerHTML = "";
+        wordCount.innerHTML = 0;
+        return;
+    }
 }
 
 
 highlightLongWords = (userInput) => {
 
     const words = userInput.split(" ");
+    console.log(words);
     // let sent = '';
 
     // for (let i = 0; i < words.length; i++) {
@@ -54,37 +55,69 @@ highlightLongWords = (userInput) => {
 
     // message.innerHTML = sent;
 
-    const wordElement = words.map(word => {
-        const longer = word.length> 4 ? "longer" : "";
-        return `<span class="word ${longer}" > ${words}
-        <span class"small"> (${word.length})</span>
+    const wordList = words.map(word => {
+        console.log(word);
+        return {
+            word,
+            length: word.length,
+            type: word.length > 4 ? "longer" : ""
+        }
+
+    });
+
+    let longestW = {
+        length: 0
+    }
+
+
+    wordList.forEach((word, index) => {
+        if (word.length > longestW.length) {
+            longestW = { ...word, index }
+        }
+    });
+
+    // console.log(longestW);
+
+    wordList[longestW.index].type = "longest";
+
+    const longestWords = wordList.filter(word => word.length === longestW.length);
+
+    console.log(longestWords);
+
+    longestWords.forEach(word => word.type = "longest");
+
+
+    const wordElement = wordList.map(word => {
+        return `<span class="word ${word.type}" > ${word.word}
+        <span class="small"> (${word.length})</span>
         </span>`
     });
 
-    message.innerHTML = wordElement.join("");
-    if(message.innerHTML.length === 0){
+     message.innerHTML = wordElement.join("");
+    if (message.innerHTML.length === 0) {
         wordCount.innerHTML = 0
-    }else{
+    } else {
         wordCount.innerHTML = words.length;
     }
 
 }
 
 
-// countWords = (userInput) => {
+countWords = (userInput) => {
 
-//     const words = userInput.split(" ");
-//     var count = 0;
-//     for (var i = 0; i < words.length; i++) {
-//         if (words[i] === " ") {
-//             count = +1;
-//         }
-//         count++;
-//     }
-//     return `There are ${count} words in the sentence`;
+    const words = userInput.split(" ");
+    var count = 0;
+    for (var i = 0; i < words.length; i++) {
+        if (words[i] === " ") {
+            count = +1;
+        }
+        count++;
+    }
+    return `There are ${count} words in the sentence`;
 
 
-// }
+}
+
 
 
 hideWords = (userInput) => {
@@ -106,22 +139,22 @@ hideWords = (userInput) => {
 
 // longestWord = (userInput) => {
 //      const words = userInput.split(" ");
-    // let sent = '';
-    // let longest = [];
-    // for (let i = 0; i < words.length; i++) {
-    //     const word = words[i];
-    //     if (words[i].length > 5) {
+// let sent = '';
+// let longest = [];
+// for (let i = 0; i < words.length; i++) {
+//     const word = words[i];
+//     if (words[i].length > 5) {
 
-    //         longest.push(word)
-    //         sent += `<mark  class="and"> ${longest} </mark>`
+//         longest.push(word)
+//         sent += `<mark  class="and"> ${longest} </mark>`
 
-    //     } else {
-    //         sent += " ";
+//     } else {
+//         sent += " ";
 
-    //     }
-    //     messages.innerHTML = sent;
-    //     messages.innerHTML = `<mark  class="dd"> ${longest} </mark>`;
-    // }
+//     }
+//     messages.innerHTML = sent;
+//     messages.innerHTML = `<mark  class="dd"> ${longest} </mark>`;
+// }
 
 //     let longest = {
 //         length : 0
@@ -167,10 +200,11 @@ keepTrack = () => {
 
 }
 
+console.log(keepTrack());
 
 clickSentence = (event) => {
     // console.log(event.target.innerHTML);
-    // highlightLongWords(event.target.innerHTML);
+     highlightLongWords(event.target.innerHTML);
     // countWords(event.target.innerHTML);
     hideWords(event.target.innerHTML);
     // longestWord(event.target.innerHTML);
@@ -210,19 +244,19 @@ clickSentence = (event) => {
 // };
 
 
-const avLastSent = (userInput) => {
+// const avLastSent = (userInput) => {
 
 
-    if (!userInput === (" ")) {
-        return userInput.length;
-    };
-    const { length: strLen } = userInput;
-    const { length: numWords } = userInput.split(" ");
-    const arvge = (strLen - numWords + 1) / numWords;
+//     if (!userInput === (" ")) {
+//         return userInput.length;
+//     };
+//     const { length: strLen } = userInput;
+//     const { length: numWords } = userInput.split(" ");
+//     const arvge = (strLen - numWords + 1) / numWords;
 
-    console.log(arvge);
-    av.innerHTML = `The average of the last sentence is ${arvge} `;
-}
+//     console.log(arvge);
+//     av.innerHTML = `The average of the last sentence is ${arvge} `;
+// }
 
 
 // const changeColor = () => {
@@ -251,13 +285,13 @@ const avLastSent = (userInput) => {
 
 analyzeBtn.addEventListener('click', function () {
 
-     message.innerHTML = getSentance();
+    message.innerHTML = getSentance();
     message.innerHTML = highlightLongWords(userInput.value);
-    // messages.innerHTML = countWords(userInput.value);
+    messages.innerHTML = countWords(userInput.value);
     // countWords(userInput.value);
     // longestWord(userInput.value);
-   messaging.innerHTML = keepTrack();
-   averageWordLength();
+    messaging.innerHTML = keepTrack();
+    averageWordLength();
 })
 
 

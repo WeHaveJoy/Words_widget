@@ -7,12 +7,21 @@ text-align: center;
   background-color: #ADB6C4;
 } */
 
-.and {
+.word{
+  font-size: 2em;
+  padding: 00.1em;
+}
+
+.longer {
     background-color: yellow;
+    padding: 0.25em;
+    margin: 0.1em;
   }
   
- .dd{
+ .longest{
    background-color: aqua;
+   padding: 0.25em;
+    margin: 0.1em;
  }
 
  .warning {
