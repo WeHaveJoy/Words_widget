@@ -1,15 +1,18 @@
 const userInput = document.querySelector(".userInput");
-const wordBtn = document.querySelector(".wordBtn");
+const analyzeBtn = document.querySelector(".analyzeBtn");
 const checkbox = document.querySelector(".checkbox");
 const message = document.querySelector(".message");
-const messagee = document.querySelector(".messagee");
+const wordCount = document.querySelector(".wordCount");
 const messages = document.querySelector(".messages");
-const avrg = document.querySelector(".avrg");
-const av = document.querySelector(".av");
+const messaging = document.querySelector(".messaging");
+const wordsElem = document.querySelector(".words");
+// const sentElem = document.querySelector(".sentElem");
+// const avrg = document.querySelector(".avrg");
+// const av = document.querySelector(".av");
 const longestBtn = document.querySelector(".longestBtn");
-const trackBtn = document.querySelector(".trackBtn");
+// const trackBtn = document.querySelector(".trackBtn");
 const list = document.querySelector(".list");
-const avBtn = document.querySelector(".avBtn");
+// const avBtn = document.querySelector(".avBtn");
 
 let arrSent = [];
 
@@ -21,90 +24,112 @@ getSentance = () => {
 
     if (arrSent.length === 5) {
         arrSent.shift();
-        // arrSent.push(userSentence);
     }
     arrSent.push(userSentence);
     localStorage.setItem("sentence", JSON.stringify(arrSent));
 
-
+if (userInput.value.trim().length === 0) {
+    wordsElem.innerHTML = "";
+    wordCount.innerHTML = 0;
+    return;
+}
 }
 
 
 highlightLongWords = (userInput) => {
 
     const words = userInput.split(" ");
-    let sent = '';
+    // let sent = '';
 
-    for (let i = 0; i < words.length; i++) {
+    // for (let i = 0; i < words.length; i++) {
 
-        if (words[i].length > 4) {
+    //     if (words[i].length > 4) {
 
-            sent += `<mark  class="and">${words[i]}</mark> `
+    //         sent += `<mark  class="and">${words[i]}</mark> `
 
-        } else {
-            sent += words[i] + " ";
-        }
+    //     } else {
+    //         sent += words[i] + " ";
+    //     }
+    // }
+
+    // message.innerHTML = sent;
+
+    const wordElement = words.map(word => {
+        const longer = word.length> 4 ? "longer" : "";
+        return `<span class="word ${longer}" > ${words}
+        <span class"small"> (${word.length})</span>
+        </span>`
+    });
+
+    message.innerHTML = wordElement.join("");
+    if(message.innerHTML.length === 0){
+        wordCount.innerHTML = 0
+    }else{
+        wordCount.innerHTML = words.length;
     }
-
-    message.innerHTML = sent;
 
 }
 
 
-countWords = (userInput) => {
+// countWords = (userInput) => {
 
-    const words = userInput.split(" ");
-    var count = 0;
-    for (var i = 0; i < words.length; i++) {
-        if (words[i] === " ") {
-            count = +1;
-        }
-        count++;
-    }
-    return `There are ${count} words in the sentence`;
+//     const words = userInput.split(" ");
+//     var count = 0;
+//     for (var i = 0; i < words.length; i++) {
+//         if (words[i] === " ") {
+//             count = +1;
+//         }
+//         count++;
+//     }
+//     return `There are ${count} words in the sentence`;
 
 
-}
+// }
 
 
 hideWords = (userInput) => {
-    // const hidenWords = userInput.value;
     const words = userInput.split(" ");
     let sent = '';
     for (let i = 0; i < words.length; i++) {
         if ((checkbox.checked == true) && (words[i].length >= 5)) {
-            // console.log(words[i].length > 4);
             sent += `<mark  class="and">${words[i]}</mark> `
 
-        } else {
-            sent += " ";
-
+        } if (checkbox.checked == false) {
+            // sent += " ";
+            message.innerHTML = getSentance();
         }
     }
 
-    messagee.innerHTML = sent;
+    message.innerHTML = sent;
 }
 
 
-longestWord = (userInput) => {
-    // const hidenWords = userInput.value;
-    const words = userInput.split(" ");
-    let sent = '';
-    let longest = [0];
-    for (let i = 0; i < words.length; i++) {
-        if ((checkbox.checked == true) && (longest.length < words[i].length)) {
+// longestWord = (userInput) => {
+//      const words = userInput.split(" ");
+    // let sent = '';
+    // let longest = [];
+    // for (let i = 0; i < words.length; i++) {
+    //     const word = words[i];
+    //     if (words[i].length > 5) {
 
-            longest = words[i];
-            sent += `<mark  class="and"> ${longest} </mark> `
+    //         longest.push(word)
+    //         sent += `<mark  class="and"> ${longest} </mark>`
 
-        } else {
-            sent += " ";
+    //     } else {
+    //         sent += " ";
 
-        }
-        messages.innerHTML = sent;
-        messages.innerHTML = `The longest word in the sentance is <mark  class="dd"> ${longest} </mark>`;
-    }
-}
+    //     }
+    //     messages.innerHTML = sent;
+    //     messages.innerHTML = `<mark  class="dd"> ${longest} </mark>`;
+    // }
+
+//     let longest = {
+//         length : 0
+//     };
+
+
+// }
+
 
 
 keepTrack = () => {
@@ -144,45 +169,45 @@ keepTrack = () => {
 
 
 clickSentence = (event) => {
-    console.log(event.target.innerHTML);
-    highlightLongWords(event.target.innerHTML);
-    countWords(event.target.innerHTML);
+    // console.log(event.target.innerHTML);
+    // highlightLongWords(event.target.innerHTML);
+    // countWords(event.target.innerHTML);
     hideWords(event.target.innerHTML);
-    longestWord(event.target.innerHTML);
-    avLastSent(event.target.innerHTML);
+    // longestWord(event.target.innerHTML);
+    // avLastSent(event.target.innerHTML);
 }
 
 
-const sentenceAvgWordLength = (sentence) => {
-    const words = sentence.split(" ");
-    let total = 0;
+// const sentenceAvgWordLength = (sentence) => {
+//     const words = sentence.split(" ");
+//     let total = 0;
 
-    words.forEach(word => {
-        total += word.length
-    });
+//     words.forEach(word => {
+//         total += word.length
+//     });
 
-    return Math.round(total / words.length)
-}
+//     return Math.round(total / words.length)
+// }
 
-const averageWordLength = () => {
-    console.log(arrSent);
+// const averageWordLength = () => {
+//     console.log(arrSent);
 
-    let total = 0;
-    for (let i = 0; i < arrSent.length; i++) {
-        const sentence = arrSent[i];
-        const wordAvg = sentenceAvgWordLength(sentence);
-        total += wordAvg
-        // if (sentence) {
-        //     average = arrSent.length / i;
-        // }
-        // console.log(element);
-    }
+//     let total = 0;
+//     for (let i = 0; i < arrSent.length; i++) {
+//         const sentence = arrSent[i];
+//         const wordAvg = sentenceAvgWordLength(sentence);
+//         total += wordAvg
+//         // if (sentence) {
+//         //     average = arrSent.length / i;
+//         // }
+//         // console.log(element);
+//     }
 
-    const avg = Math.round(total / arrSent.length)
-    //
+//     const avg = Math.round(total / arrSent.length)
+//     //
 
-    avrg.innerHTML = `The average word length of the sentences is ${avg}`;
-};
+//     avrg.innerHTML = `The average word length of the sentences is ${avg}`;
+// };
 
 
 const avLastSent = (userInput) => {
@@ -199,44 +224,56 @@ const avLastSent = (userInput) => {
     av.innerHTML = `The average of the last sentence is ${arvge} `;
 }
 
-const avDifference = () => {
 
-    if (avLastSent > averageWordLength) {
-        console.log(avLastSent > averageWordLength);
-        return "green";
+// const changeColor = () => {
+//     var higher= "green";
+//     var lower= "orange";
 
-    }
-    else if (avLastSent < averageWordLength) {
-        console.log(avLastSent < averageWordLength);
-        return "warning"
-    }
+//     // if (higher) {
+//     //     display = green;
+//     // }
+//     // else if(lower){
+//     //     display = orange;
+//     // }
+//     if (avLastSent > averageWordLength) {
+//         console.log(avLastSent > averageWordLength);
+//         return higher;
 
-}
+//     }
+//     else if (avLastSent < averageWordLength) {
+//         console.log(avLastSent < averageWordLength);
+//         return lower;
+//     }
 
+// }
 
-wordBtn.addEventListener('click', function () {
+// console.log(getSentance());
 
-    message.innerHTML = getSentance();
-    highlightLongWords(userInput.value);
-    messages.innerHTML = countWords(userInput.value);
-    countWords(userInput.value);
+analyzeBtn.addEventListener('click', function () {
+
+     message.innerHTML = getSentance();
+    message.innerHTML = highlightLongWords(userInput.value);
+    // messages.innerHTML = countWords(userInput.value);
+    // countWords(userInput.value);
+    // longestWord(userInput.value);
+   messaging.innerHTML = keepTrack();
+   averageWordLength();
 })
 
 
 checkbox.addEventListener('click', function () {
     hideWords(userInput.value);
-    longestWord(userInput.value);
 })
 
 
-trackBtn.addEventListener('click', keepTrack);
+// trackBtn.addEventListener('click', keepTrack);
 
 
 list.addEventListener('click', clickSentence);
 
 
-avBtn.addEventListener('click', function () {
-    averageWordLength();
-    avLastSent(userInput.value);
-    avDifference();
-});
+// avBtn.addEventListener('click', function () {
+//     averageWordLength();
+//     avLastSent(userInput.value);
+//     // changeColor();
+// });

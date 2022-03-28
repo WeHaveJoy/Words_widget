@@ -24,3 +24,11 @@ text-align: center;
     color: green;
     font-weight: bold;
 }
+
+/* ul li::before {
+  color: red;
+  font-weight: bold;
+  display: inline-block; 
+  width: 1em;
+  margin-left: -1em;
+} */
